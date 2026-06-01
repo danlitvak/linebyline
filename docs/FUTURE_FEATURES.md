@@ -1,40 +1,62 @@
-# Line by Line — Future Features
+# Line by Line — Roadmap
 
-## Window Move / Resize Without Mouse
+Features considered for future versions, in rough priority order.
 
-The app currently requires the mouse to move or resize the window.
+---
 
-Options:
-- Go borderless (`SystemDecorations="None"`) and implement keyboard shortcuts for move and resize
-- Or document it as a known limitation and leave standard OS window chrome in place
+## High priority
 
-## Multi-Vault Support
+### Passphrase Change
 
-Allow the user to maintain more than one separate vault file (e.g. one for personal journaling, one for work). Each vault has its own passphrase, notebooks, and entries. Switching vaults is done via a startup prompt or a `/vault` command.
+Add a `/passwd` command that re-derives the vault key with a new passphrase and rewrites the `vault_meta` password-check payload. Entry ciphertext is unaffected — entries are encrypted with the derived key, not the passphrase directly.
 
-## Entry Search
+### Entry Search
 
-Add `/search <term>` that decrypts all unlocked entries in memory and returns those containing the search term. Results are shown in a read-only view. Only works on entries whose unlock date has already passed.
+Add `/search <term>` that decrypts all unlocked entries in memory and returns those whose plaintext contains the search term. Results shown in a read-only view. Only operates on entries whose `unlock_at` has already passed.
 
-## Passphrase Change
+### Per-Entry Unlock Delay Override
 
-Add a `/passwd` command that re-encrypts the vault check token with a new passphrase. All entry ciphertext stays the same (entries are encrypted with a derived key, not the passphrase directly — the KDF salt stays the same, only the password-check payload is re-written).
+Allow typing `/in 2w` or `/in 3mo` before pressing `Enter` to set a custom unlock delay for that specific entry, overriding the global default.
 
-## Import
+---
 
-Add `/import <path>` to read a previously exported `.txt` file and re-seal entries into the vault. Useful for migrating from the export format back into the app.
+## Medium priority
 
-## Themes
+### Multi-Vault Support
 
-Add a `/theme` command to switch between visual themes beyond accent color:
-- `dark` (current default)
-- `darker` (even more reduced contrast, minimal visual noise)
-- `light` (white background, dark text)
+Allow maintaining more than one separate vault (e.g. personal and work). Each vault has its own passphrase, notebooks, and entries. Switching vaults via a startup picker or a `/vault` command.
 
-## Scheduled Unlock Notifications
+### Themes
 
-When running in the background (system tray), show a notification when entries become available to read. Requires a background process or OS-level scheduled task.
+Add a `/theme` command:
+- `dark` — current default
+- `darker` — reduced contrast, more minimal
+- `light` — white background, dark text
 
-## Per-Entry Unlock Delay Override
+### Scheduled Unlock Notifications
 
-Allow the user to set a custom unlock delay per entry at write time, e.g. typing `/in 2w` before pressing Enter sets that specific entry to unlock in 2 weeks instead of the default.
+When running in the background (system tray), show a Windows notification when entries become readable. Requires a background agent or scheduled task.
+
+### Import
+
+Add `/import <path>` to read a previously exported `.txt` file and re-seal its entries back into the vault with a new `unlock_at`.
+
+---
+
+## Lower priority / polish
+
+### Backup Reminder
+
+On vault unlock, if the vault file has not been copied/backed up in over 30 days, show a subtle one-time reminder.
+
+### Resize Without Mouse
+
+The standard Windows title bar currently handles resize. If the app ever moves to a custom chrome, add keyboard-driven resize (`Win+Arrow` works natively, but edge dragging would need explicit handling).
+
+### Entry Word Count
+
+Show a live character or word count while typing, in the hint bar area.
+
+### Configurable Timestamp Format
+
+Allow the user to choose between `yyyy-MM-dd HH:mm` (default) and shorter or locale-aware formats in settings.
