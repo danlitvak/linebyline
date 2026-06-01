@@ -4,15 +4,11 @@
         x:DataType="vm:MainWindowViewModel"
         x:Class="LineByLine.App.Views.MainWindow"
         Title="Line by Line"
-        Icon="avares://LineByLine.App/Assets/lbl_logo.png"
         Background="#0d0d0d"
-        Width="720" Height="540"
-        MinWidth="480" MinHeight="360"
-        WindowStartupLocation="CenterScreen"
-        SystemDecorations="None"
-        CanResize="False">
+        Width="720" Height="560"
+        MinWidth="480" MinHeight="380"
+        WindowStartupLocation="CenterScreen">
 
-    <!-- Ctrl+L: panic lock from anywhere -->
     <Window.KeyBindings>
         <KeyBinding Gesture="Ctrl+L" Command="{Binding LockCommand}"/>
         <KeyBinding Gesture="Ctrl+W" Command="{Binding EmergencyCloseCommand}"/>
