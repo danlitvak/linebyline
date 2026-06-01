@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:LineByLine.App.ViewModels"
+             x:DataType="vm:SettingsScreenViewModel"
+             x:Class="LineByLine.App.Views.SettingsScreenView">
+
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Escape" Command="{Binding BackCommand}"/>
+    </UserControl.KeyBindings>
+
+    <StackPanel Margin="64,60,64,64" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+        <TextBlock Text="SETTINGS"
+                   FontSize="{DynamicResource FontSizeTitle}"
+                   FontWeight="Bold"
+                   Foreground="#c8c8c8"
+                   Margin="0,0,0,32"/>
+
+        <Grid ColumnDefinitions="160,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,28">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="unlock delay"  Foreground="#555555"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UnlockDelayDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="entry limit"   Foreground="#555555"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EntryLimitDisplay}"  Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="font size"     Foreground="#555555"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FontSizeDisplay}"    Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="accent color"  Foreground="#555555"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AccentColorDisplay}" Foreground="{DynamicResource AccentBrush}"/>
+        </Grid>
+
+        <TextBlock FontSize="{DynamicResource FontSizeHint}" Foreground="#2e2e2e" Margin="0,0,0,20" TextWrapping="Wrap">
+            <Run Text="delay: "/><Run Text="15s  1h  1d  1w  1mo  3mo  1y"  Foreground="#3a3a5a"/><LineBreak/>
+            <Run Text="limit: "/><Run Text="any positive number"              Foreground="#3a3a5a"/><LineBreak/>
+            <Run Text="size:  "/><Run Text="small  medium  large"             Foreground="#3a3a5a"/><LineBreak/>
+            <Run Text="color: "/><Run Text="blue  green  amber  red  mono"   Foreground="#3a3a5a"/>
+        </TextBlock>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+            <TextBlock Text="&gt; "
+                       Foreground="{DynamicResource AccentBrush}"
+                       VerticalAlignment="Center"/>
+            <TextBox x:Name="SettingInput"
+                     Text="{Binding InputText}"
+                     Foreground="#d4d4d4"
+                     CaretBrush="#d4d4d4"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="0,4,0,4"
+                     MinWidth="280"
+                     VerticalAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     SelectionBrush="#44ffffff"
+                     Watermark="e.g.  delay 1w   size large   color green"/>
+        </StackPanel>
+
+        <TextBlock Text="{Binding Feedback}"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="{DynamicResource AccentBrush}"
+                   TextWrapping="Wrap"
+                   IsVisible="{Binding Feedback, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        <TextBlock Text="enter to apply   esc to go back"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="#2a2a2a"
+                   Margin="0,24,0,0"/>
+
+    </StackPanel>
+</UserControl>

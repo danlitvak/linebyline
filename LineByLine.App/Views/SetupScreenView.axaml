@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:LineByLine.App.ViewModels"
+             x:DataType="vm:SetupScreenViewModel"
+             x:Class="LineByLine.App.Views.SetupScreenView">
+
+    <StackPanel Margin="64,80,64,64" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+        <TextBlock Text="LINE BY LINE"
+                   FontSize="{DynamicResource FontSizeTitle}"
+                   FontWeight="Bold"
+                   Foreground="#c8c8c8"
+                   Margin="0,0,0,4"/>
+
+        <TextBlock Text="new vault"
+                   Foreground="#555555"
+                   Margin="0,0,0,36"/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Text="create passphrase:  "
+                       Foreground="#666666"
+                       VerticalAlignment="Center"/>
+            <TextBox x:Name="PassphraseInput"
+                     PasswordChar="*"
+                     Text="{Binding Passphrase}"
+                     Foreground="#d4d4d4"
+                     CaretBrush="#d4d4d4"
+                     Background="Transparent"
+                     BorderBrush="#333333"
+                     BorderThickness="0,0,0,1"
+                     Padding="2,0"
+                     MinWidth="220"
+                     MinHeight="0"
+                     VerticalAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     SelectionBrush="#44ffffff"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="confirm passphrase: "
+                       Foreground="#666666"
+                       VerticalAlignment="Center"/>
+            <TextBox x:Name="ConfirmInput"
+                     PasswordChar="*"
+                     Text="{Binding ConfirmPassphrase}"
+                     Foreground="#d4d4d4"
+                     CaretBrush="#d4d4d4"
+                     Background="Transparent"
+                     BorderBrush="#333333"
+                     BorderThickness="0,0,0,1"
+                     Padding="2,0"
+                     MinWidth="220"
+                     MinHeight="0"
+                     VerticalAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     SelectionBrush="#44ffffff"/>
+        </StackPanel>
+
+        <TextBlock Text="creating vault..."
+                   Foreground="{DynamicResource AccentBrush}"
+                   Margin="0,20,0,0"
+                   IsVisible="{Binding IsCreating}"/>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="#cc4444"
+                   Margin="0,14,0,0"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+    </StackPanel>
+</UserControl>

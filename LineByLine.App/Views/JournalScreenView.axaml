@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:LineByLine.App.ViewModels"
+             x:DataType="vm:JournalScreenViewModel"
+             x:Class="LineByLine.App.Views.JournalScreenView">
+
+    <DockPanel KeyboardNavigation.TabNavigation="Cycle">
+
+        <!-- Context header with entry count -->
+        <StackPanel DockPanel.Dock="Top" Margin="64,40,64,0">
+            <TextBlock Text="{Binding ContextDisplay}"
+                       FontSize="{DynamicResource FontSizeHint}"
+                       Foreground="{DynamicResource AccentBrush}"/>
+        </StackPanel>
+
+        <!-- Input prompt -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="64,0,64,36" VerticalAlignment="Bottom">
+            <TextBlock Text="&gt; "
+                       Foreground="{DynamicResource AccentBrush}"
+                       VerticalAlignment="Top"
+                       Margin="0,4,0,0"/>
+            <TextBox x:Name="InputBox"
+                     Text="{Binding DraftText}"
+                     AcceptsReturn="True"
+                     Foreground="#d4d4d4"
+                     CaretBrush="#d4d4d4"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="0,4,0,4"
+                     MinWidth="400"
+                     MaxHeight="120"
+                     SelectionBrush="#44ffffff"
+                     Watermark="..."
+                     TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <!-- Divider -->
+        <Border DockPanel.Dock="Bottom" Height="1" Background="#1e1e1e" Margin="64,0,64,12"/>
+
+        <!-- Tab suggestion -->
+        <TextBlock DockPanel.Dock="Bottom"
+                   Text="{Binding TabSuggestion}"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="{DynamicResource AccentBrush}"
+                   Margin="64,0,64,6"
+                   IsVisible="{Binding TabSuggestion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        <!-- Command output -->
+        <TextBlock DockPanel.Dock="Bottom"
+                   Text="{Binding CommandOutput}"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="{DynamicResource AccentBrush}"
+                   Margin="64,0,64,8"
+                   TextWrapping="Wrap"
+                   IsVisible="{Binding CommandOutput, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        <!-- Key hint -->
+        <TextBlock DockPanel.Dock="Bottom"
+                   Text="enter to seal   esc to clear   tab to complete   /help for commands"
+                   FontSize="{DynamicResource FontSizeHint}"
+                   Foreground="#2a2a2a"
+                   Margin="64,0,64,4"/>
+
+        <!-- Sealed entries list -->
+        <ScrollViewer x:Name="EntriesScrollViewer"
+                      Margin="64,20,64,24"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding RecentEntries}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:SealedEntryDisplay">
+                        <TextBlock FontSize="{DynamicResource FontSizeHint}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,10">
+                            <Run Text="{Binding Timestamp}" Foreground="#444444"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding Preview}" Foreground="#333333"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </DockPanel>
+</UserControl>
