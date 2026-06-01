@@ -1,6 +1,6 @@
 # Line by Line
 
-<img src="LineByLine.App/Assets/lbl_logo.png" width="80" alt="Line by Line logo"/>
+<img src="LineByLine.App/Assets/lbl_logo_animated.gif" width="80" alt="Line by Line logo"/>
 
 A minimal, local-first desktop journaling app for fast private writing.
 
