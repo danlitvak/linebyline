@@ -16,22 +16,29 @@
                    Foreground="#c8c8c8"
                    Margin="0,0,0,32"/>
 
-        <Grid ColumnDefinitions="160,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,28">
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="unlock delay"  Foreground="#555555"/>
+        <Grid ColumnDefinitions="130,140,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,28">
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="unlock delay" Foreground="#555555"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UnlockDelayDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="entry limit"   Foreground="#555555"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EntryLimitDisplay}"  Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="font size"     Foreground="#555555"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FontSizeDisplay}"    Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="accent color"  Foreground="#555555"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="delay 1d" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center" Margin="0,0,0,10"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="entry limit" Foreground="#555555"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EntryLimitDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="limit 50" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center" Margin="0,0,0,10"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="font size" Foreground="#555555"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FontSizeDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="size small|medium|large" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center" Margin="0,0,0,10"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="accent color" Foreground="#555555"/>
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AccentColorDisplay}" Foreground="{DynamicResource AccentBrush}"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="color blue|#rrggbb" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center"/>
+
         </Grid>
 
         <TextBlock FontSize="{DynamicResource FontSizeHint}" Foreground="#2e2e2e" Margin="0,0,0,20" TextWrapping="Wrap">
-            <Run Text="delay: "/><Run Text="15s  1h  1d  1w  1mo  3mo  1y"  Foreground="#3a3a5a"/><LineBreak/>
-            <Run Text="limit: "/><Run Text="any positive number"              Foreground="#3a3a5a"/><LineBreak/>
-            <Run Text="size:  "/><Run Text="small  medium  large"             Foreground="#3a3a5a"/><LineBreak/>
-            <Run Text="color: "/><Run Text="blue  green  amber  red  mono"   Foreground="#3a3a5a"/>
+            <Run Text="delay: "/><Run Text="15s  1h  1d  1w  1mo  3mo  1y" Foreground="#3a3a5a"/><LineBreak/>
+            <Run Text="color: "/><Run Text="blue  green  amber  red  mono  or any #rrggbb hex" Foreground="#3a3a5a"/>
         </TextBlock>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
@@ -49,7 +56,7 @@
                      VerticalAlignment="Center"
                      VerticalContentAlignment="Center"
                      SelectionBrush="#44ffffff"
-                     Watermark="e.g.  delay 1w   size large   color green"/>
+                     Watermark="e.g.  delay 1w   size large   color #e87c3e"/>
         </StackPanel>
 
         <TextBlock Text="{Binding Feedback}"

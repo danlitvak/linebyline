@@ -1,3 +1,4 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Media;
 using LineByLine.App.Data;
@@ -69,14 +70,23 @@ public class SettingsService
 
     public void ApplyAccentColor(string option)
     {
-        var color = option switch
+        Color color;
+        if (option.StartsWith('#'))
         {
-            "green" => Color.Parse("#44aa66"),
-            "amber" => Color.Parse("#aa8833"),
-            "red" => Color.Parse("#aa4444"),
-            "mono" => Color.Parse("#777777"),
-            _ => Color.Parse("#5555aa"),
-        };
+            try { color = Color.Parse(option); }
+            catch { color = Color.Parse("#5555AA"); }
+        }
+        else
+        {
+            color = option switch
+            {
+                "green" => Color.Parse("#44aa66"),
+                "amber" => Color.Parse("#aa8833"),
+                "red" => Color.Parse("#aa4444"),
+                "mono" => Color.Parse("#777777"),
+                _ => Color.Parse("#5555aa"),
+            };
+        }
         Application.Current!.Resources["AccentBrush"] = new SolidColorBrush(color);
     }
 
@@ -114,13 +124,27 @@ public class SettingsService
         _ => null,
     };
 
-    public static string? ParseAccentColor(string input) => input.Trim().ToLowerInvariant() switch
+    public static string? ParseAccentColor(string input)
     {
-        "blue" or "b" => "blue",
-        "green" or "g" => "green",
-        "amber" or "a" => "amber",
-        "red" or "r" => "red",
-        "mono" or "white" or "w" => "mono",
-        _ => null,
-    };
+        var trimmed = input.Trim();
+
+        var named = trimmed.ToLowerInvariant() switch
+        {
+            "blue" or "b" => "blue",
+            "green" or "g" => "green",
+            "amber" or "a" => "amber",
+            "red" or "r" => "red",
+            "mono" or "white" or "w" => "mono",
+            _ => null,
+        };
+        if (named != null) return named;
+
+        // Accept #rrggbb, #rgb, or bare rrggbb / rgb
+        var hex = trimmed.StartsWith('#') ? trimmed : "#" + trimmed;
+        var body = hex[1..];
+        if ((body.Length == 6 || body.Length == 3) && body.All(char.IsAsciiHexDigit))
+            return hex.ToUpperInvariant();
+
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 # Line by Line
 
+<img src="LineByLine.App/Assets/lbl_logo.png" width="80" alt="Line by Line logo"/>
+
 A minimal, local-first desktop journaling app for fast private writing.
 
 Write one entry at a time. Press `Enter` and it disappears — encrypted, sealed, unreadable until its unlock date. Come back later and read what you wrote when you were ready to say it, not to read it.
