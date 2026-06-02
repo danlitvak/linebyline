@@ -121,6 +121,8 @@ No build tools required — grab the latest build from the [**Releases**](https:
 
 The builds are self-contained — no .NET install needed. On macOS the app is unsigned, so the first launch is blocked by Gatekeeper: **right-click the app → Open**, then confirm. You only need to do this once.
 
+**Troubleshooting:** if the Windows app closes instantly or reports a missing `libSkiaSharp.dll` / DLL error, you have an early single-file build that left native libraries out of the exe. Delete it and download **v1.2 or later**, where the native libraries are embedded in the executable.
+
 ### Requirements (to build from source)
 
 - Windows 10 / 11, or macOS 10.15+
