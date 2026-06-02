@@ -19,7 +19,9 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _vault = vault;
         _settings = settings;
-        _isTransparent = settings.Transparency > 0;
+        // Note: don't read persisted settings here — the database schema isn't
+        // created until the vault is set up or unlocked. Transparency state is
+        // synced in GoToJournal, after the settings have been applied.
         _currentScreen = vault.VaultExists()
             ? new LockedScreenViewModel(this, vault)
             : new SetupScreenViewModel(this, vault);
@@ -28,6 +30,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public void GoToJournal()
     {
         _settings.ApplyAll();
+        _isTransparent = _settings.Transparency > 0;
         CurrentScreen = new JournalScreenViewModel(this, _vault, _settings);
     }
 
