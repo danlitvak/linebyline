@@ -20,9 +20,10 @@ Write one entry at a time. Press `Enter` — it disappears. Encrypted, sealed, u
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
 - [Getting started](#getting-started)
-  - [Requirements](#requirements)
+  - [Download a prebuilt binary](#download-a-prebuilt-binary)
+  - [Requirements (to build from source)](#requirements-to-build-from-source)
   - [Run from source](#run-from-source)
-  - [Build self-contained release](#build-self-contained-release)
+  - [Build a self-contained release](#build-a-self-contained-release)
 - [Usage](#usage)
   - [Keyboard shortcuts](#keyboard-shortcuts)
   - [Commands](#commands)
@@ -108,9 +109,21 @@ Key design decisions:
 
 ## Getting started
 
-### Requirements
+### Download a prebuilt binary
 
-- Windows 10 / 11
+No build tools required — grab the latest build from the [**Releases**](https://github.com/danlitvak/linebyline/releases/latest) page:
+
+| Platform | Download |
+|---|---|
+| Windows (x64) | `LineByLine-<version>-win-x64.exe` |
+| macOS (Apple Silicon) | `LineByLine-<version>-osx-arm64.zip` |
+| macOS (Intel) | `LineByLine-<version>-osx-x64.zip` |
+
+The builds are self-contained — no .NET install needed. On macOS the app is unsigned, so the first launch is blocked by Gatekeeper: **right-click the app → Open**, then confirm. You only need to do this once.
+
+### Requirements (to build from source)
+
+- Windows 10 / 11, or macOS 10.15+
 - [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 
 ### Run from source
@@ -121,11 +134,21 @@ cd linebyline/LineByLine.App
 dotnet run
 ```
 
-### Build self-contained release
+### Build a self-contained release
+
+Windows single-file executable:
 
 ```bash
 dotnet publish LineByLine.App -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
 ```
+
+macOS (`osx-arm64` for Apple Silicon, `osx-x64` for Intel):
+
+```bash
+dotnet publish LineByLine.App -c Release -r osx-arm64 --self-contained
+```
+
+Tagged releases are built automatically for all three targets by the [release workflow](.github/workflows/release.yml) — see [Releases](https://github.com/danlitvak/linebyline/releases) for downloads.
 
 ---
 
@@ -144,8 +167,10 @@ dotnet publish LineByLine.App -c Release -r win-x64 --self-contained -p:PublishS
 | `Esc` | Clear the current draft |
 | `Tab` | Cycle through command completions |
 | `Page Up / Down` | Scroll the entry list |
-| `Ctrl+L` | Lock the vault immediately |
-| `Ctrl+W` | Emergency close — saves draft as `[interrupted]`, locks, exits |
+| `Ctrl/Cmd+L` | Lock the vault immediately |
+| `Ctrl/Cmd+W` | Emergency close — saves draft as `[interrupted]`, locks, exits |
+
+On macOS these use `Cmd`; on Windows and Linux they use `Ctrl`. The modifier is taken from the platform at runtime.
 
 ### Commands
 
@@ -216,7 +241,7 @@ To back up your vault, copy the `.vault.db` file.
 ## Limitations
 
 - **Unlock timing is app-enforced, not cryptographic.** A technically capable user with direct database access could read ciphertext before the unlock date. The app makes casual access impossible, not adversarial access.
-- **Windows-first.** Avalonia supports macOS and Linux, but the app has only been packaged and tested on Windows.
+- **Windows and macOS builds are produced; Linux is buildable but unpackaged.** The release pipeline ships Windows and macOS (Intel + Apple Silicon) binaries. Avalonia also runs on Linux, but no Linux artifact is published yet. macOS builds are unsigned, so Gatekeeper requires a one-time right-click → Open.
 - **No multi-device sync.** The vault is a local file. You can copy it manually between machines, but there is no sync mechanism.
 
 ---

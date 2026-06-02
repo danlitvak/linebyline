@@ -9,10 +9,9 @@
         MinWidth="480" MinHeight="380"
         WindowStartupLocation="CenterScreen">
 
-    <Window.KeyBindings>
-        <KeyBinding Gesture="Ctrl+L" Command="{Binding LockCommand}"/>
-        <KeyBinding Gesture="Ctrl+W" Command="{Binding EmergencyCloseCommand}"/>
-    </Window.KeyBindings>
+    <!-- Lock (Ctrl/Cmd+L) and emergency close (Ctrl/Cmd+W) are bound in
+         code-behind so they use the platform command modifier:
+         Ctrl on Windows/Linux, Cmd on macOS. -->
 
     <ContentControl Content="{Binding CurrentScreen}"/>
 </Window>
