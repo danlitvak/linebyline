@@ -38,6 +38,7 @@ public partial class JournalScreenViewModel : ViewModelBase
         "/lock",
         "/unlocked",
         "/settings",
+        "/transparent",
         "/notebooks",
         "/pages",
         "/trash",
@@ -256,6 +257,12 @@ public partial class JournalScreenViewModel : ViewModelBase
                 _main.GoToSettings();
                 break;
 
+            case "/transparent":
+                CommandOutput = _main.ToggleTransparency()
+                    ? "transparent overlay on - the window now shows through"
+                    : "transparent overlay off";
+                break;
+
             case "/help":
                 CommandOutput =
                     "/notebooks              list all notebooks\n" +
@@ -270,6 +277,7 @@ public partial class JournalScreenViewModel : ViewModelBase
                     "/export                 export unlocked entries to a file\n" +
                     "/delete last            delete the most recent entry\n" +
                     "/settings               open settings\n" +
+                    "/transparent            toggle a see-through overlay window\n" +
                     "/lock                   lock the vault";
                 break;
 

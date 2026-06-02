@@ -202,6 +202,7 @@ Type any of the following at the `>` prompt and press `Enter`.
 | Command | Description |
 |---|---|
 | `/settings` | Open the settings screen |
+| `/transparent` | Toggle a see-through overlay window for note-taking on top of other apps |
 | `/lock` | Lock the vault |
 | `/help` | Print all available commands |
 
