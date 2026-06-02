@@ -10,6 +10,18 @@ Write one entry at a time. Press `Enter` — it disappears. Encrypted, sealed, u
 
 ---
 
+## Screenshots
+
+| Passphrase unlock | Settings |
+|---|---|
+| ![Passphrase screen](docs/screenshots/passphrase.png) | ![Settings screen](docs/screenshots/settings.png) |
+
+| `/help` command output | Sealed entries in a notebook page |
+|---|---|
+| ![Help output](docs/screenshots/help.png) | ![Journal with sealed notes](docs/screenshots/journal.png) |
+
+---
+
 ## Motivation
 
 Most journaling apps put the full text of your thoughts in front of you the moment you open them — which makes it easy to second-guess, re-edit, or spiral back into what you wrote. Line by Line is built around a different idea: **delayed reflection**. You write freely because you know you can't immediately reread it. The entry is sealed on submission and locked until a date you set. When that date arrives, you meet your past thoughts as a reader, not an editor.
