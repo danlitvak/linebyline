@@ -1,5 +1,8 @@
 bin/
 obj/
+publish/
+publish_test/
+dist/
 *.user
 .vs/
 *.suo
