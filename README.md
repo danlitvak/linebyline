@@ -19,6 +19,7 @@ Write one entry at a time. Press `Enter` — it disappears. Encrypted, sealed, u
 - [Features](#features)
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
+- [Engineering notes](#engineering-notes)
 - [Getting started](#getting-started)
   - [Download a prebuilt binary](#download-a-prebuilt-binary)
   - [Requirements (to build from source)](#requirements-to-build-from-source)
@@ -104,6 +105,13 @@ Key design decisions:
 - **Vault key zeroed on lock** — `Array.Clear` on the in-memory key bytes on every lock path (Ctrl+L, Ctrl+W, lock command, window close)
 - **Dynamic Avalonia resources** — font size and accent colour are stored as `Application.Resources` entries; updating them at runtime re-renders the whole UI without a restart
 - **Tunnel KeyDown for Enter/Tab** — the TextBox intercepts `AcceptsReturn` before bubble events fire, so Enter-to-submit and Tab-to-complete use `RoutingStrategies.Tunnel` to intercept before the control handles them
+
+---
+
+## Engineering notes
+
+- **[Development timeline](docs/TIMELINE.md)** — how the app was built, phase by phase, through to the CI/CD pipeline and cross-platform releases.
+- **[Debugging notes](docs/DEBUGGING.md)** — postmortems of two real crashes found by a tester running the released `.exe`: a missing native library in the single-file build, and a first-run crash from reading the database before its schema existed. Each covers the symptom, how it was diagnosed from Windows event logs, the root cause, the fix, and how it was verified.
 
 ---
 
