@@ -16,7 +16,7 @@
                    Foreground="#c8c8c8"
                    Margin="0,0,0,32"/>
 
-        <Grid ColumnDefinitions="130,140,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,28">
+        <Grid ColumnDefinitions="130,140,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,28">
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="unlock delay" Foreground="#555555"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UnlockDelayDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
@@ -31,8 +31,12 @@
             <TextBlock Grid.Row="2" Grid.Column="2" Text="size small|medium|large" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center" Margin="0,0,0,10"/>
 
             <TextBlock Grid.Row="3" Grid.Column="0" Text="accent color" Foreground="#555555"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AccentColorDisplay}" Foreground="{DynamicResource AccentBrush}"/>
-            <TextBlock Grid.Row="3" Grid.Column="2" Text="color blue|#rrggbb" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AccentColorDisplay}" Foreground="{DynamicResource AccentBrush}" Margin="0,0,0,10"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="color blue|#rrggbb" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center" Margin="0,0,0,10"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="transparency" Foreground="#555555"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding TransparencyDisplay}" Foreground="{DynamicResource AccentBrush}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="transparency 0-100" Foreground="#333333" FontSize="{DynamicResource FontSizeHint}" VerticalAlignment="Center"/>
 
         </Grid>
 

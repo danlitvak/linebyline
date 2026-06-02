@@ -11,7 +11,7 @@ public partial class SettingsScreenViewModel : ViewModelBase
     private readonly MainWindowViewModel _main;
     private readonly SettingsService _settings;
 
-    private static readonly string[] SettingCompletions = { "delay ", "limit ", "size ", "color " };
+    private static readonly string[] SettingCompletions = { "delay ", "limit ", "size ", "color ", "transparency " };
     private string[] _tabMatches = Array.Empty<string>();
     private int _tabIndex = -1;
 
@@ -19,6 +19,7 @@ public partial class SettingsScreenViewModel : ViewModelBase
     [ObservableProperty] private string _entryLimitDisplay = string.Empty;
     [ObservableProperty] private string _fontSizeDisplay = string.Empty;
     [ObservableProperty] private string _accentColorDisplay = string.Empty;
+    [ObservableProperty] private string _transparencyDisplay = string.Empty;
     [ObservableProperty] private string _inputText = string.Empty;
     [ObservableProperty] private string? _feedback;
 
@@ -35,6 +36,7 @@ public partial class SettingsScreenViewModel : ViewModelBase
         EntryLimitDisplay = _settings.EntryLimit.ToString();
         FontSizeDisplay = _settings.FontSizeOption;
         AccentColorDisplay = _settings.AccentColorOption;
+        TransparencyDisplay = _settings.Transparency == 0 ? "off" : $"{_settings.Transparency}%";
         Feedback = null;
     }
 
@@ -100,8 +102,23 @@ public partial class SettingsScreenViewModel : ViewModelBase
                 }
                 break;
 
+            case "transparency":
+                var pct = SettingsService.ParseTransparency(arg);
+                if (pct is null)
+                    Feedback = $"invalid transparency: {arg}   enter a number 0-100";
+                else
+                {
+                    _settings.Transparency = pct.Value;
+                    _settings.ApplyTransparency(pct.Value);
+                    Refresh();
+                    Feedback = pct.Value == 0
+                        ? "transparency off"
+                        : $"transparency set to {pct.Value}%";
+                }
+                break;
+
             default:
-                Feedback = $"unknown setting: {cmd}   try delay / limit / size / color";
+                Feedback = $"unknown setting: {cmd}   try delay / limit / size / color / transparency";
                 break;
         }
     }

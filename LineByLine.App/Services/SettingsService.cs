@@ -1,5 +1,8 @@
+using System;
 using System.Linq;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using LineByLine.App.Data;
 
@@ -11,6 +14,10 @@ public class SettingsService
     private const string KeyEntryLimit = "recent_entry_limit";
     private const string KeyFontSize = "font_size";
     private const string KeyAccentColor = "accent_color";
+    private const string KeyTransparency = "transparency_percent";
+
+    // 0 = fully opaque (normal window), 100 = fully see-through.
+    public const int DefaultTransparency = 0;
 
 #if DEBUG
     public const int DefaultUnlockDelaySeconds = 15;
@@ -47,11 +54,47 @@ public class SettingsService
         set => _repo.Set(KeyAccentColor, value);
     }
 
+    public int Transparency
+    {
+        get => _repo.GetInt(KeyTransparency, DefaultTransparency);
+        set => _repo.SetInt(KeyTransparency, value);
+    }
+
     // Apply all persisted visual settings — call once after vault unlocks.
     public void ApplyAll()
     {
         ApplyFontSize(FontSizeOption);
         ApplyAccentColor(AccentColorOption);
+        ApplyTransparency(Transparency);
+    }
+
+    /// <summary>
+    /// Applies a window transparency level (0 = opaque, 100 = fully see-through).
+    /// A dark tint scales with the level so light text stays legible.
+    /// </summary>
+    public void ApplyTransparency(int percent)
+    {
+        percent = Math.Clamp(percent, 0, 100);
+
+        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop
+            || desktop.MainWindow is not { } window)
+            return;
+
+        if (percent <= 0)
+        {
+            window.TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
+            window.Background = new SolidColorBrush(Color.FromRgb(0x0d, 0x0d, 0x0d));
+            return;
+        }
+
+        // Higher percent -> lower alpha on the dark backing -> more see-through.
+        var alpha = (byte)(255 * (100 - percent) / 100);
+        window.TransparencyLevelHint = new[]
+        {
+            WindowTransparencyLevel.Transparent,
+            WindowTransparencyLevel.AcrylicBlur,
+        };
+        window.Background = new SolidColorBrush(Color.FromArgb(alpha, 0x0d, 0x0d, 0x0d));
     }
 
     public void ApplyFontSize(string option)
@@ -115,6 +158,14 @@ public class SettingsService
         "1y" => 31_536_000,
         _ => null,
     };
+
+    public static int? ParseTransparency(string input)
+    {
+        var trimmed = input.Trim().TrimEnd('%').Trim();
+        if (int.TryParse(trimmed, out var value) && value >= 0 && value <= 100)
+            return value;
+        return null;
+    }
 
     public static string? ParseFontSize(string input) => input.Trim().ToLowerInvariant() switch
     {

@@ -1,7 +1,5 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LineByLine.App.Services;
@@ -21,6 +19,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _vault = vault;
         _settings = settings;
+        _isTransparent = settings.Transparency > 0;
         _currentScreen = vault.VaultExists()
             ? new LockedScreenViewModel(this, vault)
             : new SetupScreenViewModel(this, vault);
@@ -55,42 +54,24 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentScreen = new LockedScreenViewModel(this, _vault);
     }
 
-    private static readonly Color OpaqueBackground = Color.FromRgb(0x0d, 0x0d, 0x0d);
-    // Dark tint kept over the transparent window so light text stays legible
-    // against whatever is showing behind it.
-    private static readonly Color GlassBackground = Color.FromArgb(0x66, 0x0d, 0x0d, 0x0d);
+    // Fallback level used by the /transparent toggle when no transparency is
+    // configured in settings.
+    private const int ToggleDefaultTransparency = 40;
 
     private bool _isTransparent;
 
     /// <summary>
-    /// Toggles a see-through window so the app can sit over other windows as
-    /// a note-taking overlay. Returns the new transparency state.
+    /// Quick toggle of a see-through window for note-taking over other windows.
+    /// Uses the configured transparency level (or a default), without changing
+    /// the saved setting. Returns the new transparency state.
     /// </summary>
     public bool ToggleTransparency()
     {
-        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop
-            || desktop.MainWindow is not { } window)
-            return _isTransparent;
-
         _isTransparent = !_isTransparent;
-
-        if (_isTransparent)
-        {
-            // Prefer real transparency; fall back to a blur if the OS/compositor
-            // doesn't support a fully transparent client area.
-            window.TransparencyLevelHint = new[]
-            {
-                WindowTransparencyLevel.Transparent,
-                WindowTransparencyLevel.AcrylicBlur,
-            };
-            window.Background = new SolidColorBrush(GlassBackground);
-        }
-        else
-        {
-            window.TransparencyLevelHint = new[] { WindowTransparencyLevel.None };
-            window.Background = new SolidColorBrush(OpaqueBackground);
-        }
-
+        var level = _isTransparent
+            ? (_settings.Transparency > 0 ? _settings.Transparency : ToggleDefaultTransparency)
+            : 0;
+        _settings.ApplyTransparency(level);
         return _isTransparent;
     }
 

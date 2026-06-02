@@ -134,6 +134,7 @@ Plaintext format with timestamps. Only entries whose `unlock_at` has passed are 
 | Entry limit | `limit <n>` | Any positive integer |
 | Font size | `size <value>` | `small` `medium` `large` |
 | Accent colour | `color <value>` | `blue` `green` `amber` `red` `mono` or `#rrggbb` |
+| Transparency | `transparency <n>` | `0`–`100` (0 = opaque overlay off, higher = more see-through) |
 
 Settings are persisted in the vault database and applied on every unlock. Font size and accent colour update the entire UI instantly via dynamic Avalonia resources.
 

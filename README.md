@@ -216,6 +216,7 @@ Open `/settings` and type a command at the `>` prompt.
 | `limit <n>` | Any positive integer | `30` |
 | `size <value>` | `small` `medium` `large` | `medium` |
 | `color <value>` | `blue` `green` `amber` `red` `mono` or any `#rrggbb` hex | `blue` |
+| `transparency <n>` | `0`–`100` (0 = opaque, higher = more see-through) | `0` |
 
 Settings are persisted in the vault database and applied automatically on every unlock.
 
