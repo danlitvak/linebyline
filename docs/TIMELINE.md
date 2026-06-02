@@ -149,3 +149,18 @@ Line by Line is a local-first desktop journaling app built on C# / .NET 7 / Aval
 **Verified:** ran the exact publish command locally to confirm it produces a working ~74 MB single-file exe, then cut the first real release (`v0`) — the workflow built and uploaded `LineByLine-v0-win-x64.exe` on GitHub's runner end-to-end.
 
 **Why it matters:** this is a complete CI/CD setup — continuous integration guarding every commit and an automated, reproducible release pipeline that ships a ready-to-run binary from a single `git tag`. It demonstrates the build → verify → package → distribute lifecycle that production software depends on.
+
+---
+
+## Cross-platform builds and field debugging
+
+**Goal:** Ship macOS builds alongside Windows, then keep the released binaries actually working on machines other than the developer's.
+
+**Built:**
+- Extended the release pipeline to build **macOS `.app` bundles** (`osx-arm64` and `osx-x64`) with a generated `.icns` icon and `Info.plist`, published next to the Windows exe via a fan-out/collect job layout (`build-windows` + `build-macos` → single `release` job).
+- **Platform-aware shortcuts** — lock and emergency-close use the platform command modifier (`Ctrl` on Windows/Linux, `Cmd` on macOS), sourced from Avalonia's `PlatformSettings.HotkeyConfiguration`.
+- **`/transparent` overlay** and a persisted **`transparency` setting (0–100)** for note-taking over other windows.
+
+**Field debugging:** the first public releases surfaced two production crashes — a missing native library in the single-file build, and a first-run crash from reading the database before its schema existed. Both were diagnosed from a tester's Windows event logs without access to the machine, fixed across `v1.1 → v1.2 → v1.3`, and verified by reproducing the exact failure conditions locally. Full writeups in [`DEBUGGING.md`](DEBUGGING.md).
+
+**Why it matters:** building a binary is not the same as shipping one that runs on someone else's computer. This phase covers the gap between "compiles on my machine" and "a stranger downloads it and it works" — cross-platform packaging, environment-dependent failure modes, and disciplined, telemetry-driven debugging.
