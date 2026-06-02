@@ -1,0 +1,50 @@
+name: Release
+
+# Build a self-contained Windows .exe and attach it to a GitHub Release
+# whenever a version tag (e.g. v1.0.0) is pushed.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish Windows exe
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Publish self-contained single-file exe
+        run: >
+          dotnet publish LineByLine.App/LineByLine.App.csproj
+          -c Release
+          -r win-x64
+          --self-contained
+          -p:PublishSingleFile=true
+          -o publish
+
+      - name: Stage release artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item publish/LineByLine.App.exe "dist/LineByLine-${{ github.ref_name }}-win-x64.exe"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Line by Line ${{ github.ref_name }}
+          generate_release_notes: true
+          files: dist/LineByLine-${{ github.ref_name }}-win-x64.exe
