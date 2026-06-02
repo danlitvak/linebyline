@@ -41,23 +41,25 @@
             <Run Text="color: "/><Run Text="blue  green  amber  red  mono  or any #rrggbb hex" Foreground="#3a3a5a"/>
         </TextBlock>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-            <TextBlock Text="&gt; "
+        <Grid ColumnDefinitions="Auto,*" Margin="0,0,0,12">
+            <TextBlock Grid.Column="0"
+                       Text="&gt; "
                        Foreground="{DynamicResource AccentBrush}"
                        VerticalAlignment="Center"/>
-            <TextBox x:Name="SettingInput"
+            <TextBox Grid.Column="1"
+                     x:Name="SettingInput"
                      Text="{Binding InputText}"
                      Foreground="#d4d4d4"
                      CaretBrush="#d4d4d4"
                      Background="Transparent"
                      BorderThickness="0"
                      Padding="0,4,0,4"
-                     MinWidth="280"
                      VerticalAlignment="Center"
                      VerticalContentAlignment="Center"
                      SelectionBrush="#44ffffff"
+                     TextWrapping="Wrap"
                      Watermark="e.g.  delay 1w   size large   color #e87c3e"/>
-        </StackPanel>
+        </Grid>
 
         <TextBlock Text="{Binding Feedback}"
                    FontSize="{DynamicResource FontSizeHint}"

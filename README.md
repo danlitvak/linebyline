@@ -10,6 +10,27 @@ Write one entry at a time. Press `Enter` — it disappears. Encrypted, sealed, u
 
 ---
 
+## Contents
+
+- [Screenshots](#screenshots)
+- [Motivation](#motivation)
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Architecture](#architecture)
+- [Getting started](#getting-started)
+  - [Requirements](#requirements)
+  - [Run from source](#run-from-source)
+  - [Build self-contained release](#build-self-contained-release)
+- [Usage](#usage)
+  - [Keyboard shortcuts](#keyboard-shortcuts)
+  - [Commands](#commands)
+  - [Settings](#settings)
+- [Data & privacy](#data--privacy)
+- [Limitations](#limitations)
+- [Licence](#licence)
+
+---
+
 ## Screenshots
 
 | Passphrase unlock | Settings |

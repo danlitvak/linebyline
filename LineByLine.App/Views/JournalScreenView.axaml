@@ -14,12 +14,17 @@
         </StackPanel>
 
         <!-- Input prompt -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="64,0,64,36" VerticalAlignment="Bottom">
-            <TextBlock Text="&gt; "
+        <Grid DockPanel.Dock="Bottom"
+              ColumnDefinitions="Auto,*"
+              Margin="64,0,64,36"
+              VerticalAlignment="Bottom">
+            <TextBlock Grid.Column="0"
+                       Text="&gt; "
                        Foreground="{DynamicResource AccentBrush}"
                        VerticalAlignment="Top"
                        Margin="0,4,0,0"/>
-            <TextBox x:Name="InputBox"
+            <TextBox Grid.Column="1"
+                     x:Name="InputBox"
                      Text="{Binding DraftText}"
                      AcceptsReturn="True"
                      Foreground="#d4d4d4"
@@ -27,12 +32,11 @@
                      Background="Transparent"
                      BorderThickness="0"
                      Padding="0,4,0,4"
-                     MinWidth="400"
                      MaxHeight="120"
                      SelectionBrush="#44ffffff"
                      Watermark="..."
                      TextWrapping="Wrap"/>
-        </StackPanel>
+        </Grid>
 
         <!-- Divider -->
         <Border DockPanel.Dock="Bottom" Height="1" Background="#1e1e1e" Margin="64,0,64,12"/>
