@@ -132,3 +132,20 @@ Line by Line is a local-first desktop journaling app built on C# / .NET 7 / Aval
 - README rewritten for portfolio: motivation, architecture notes, design decisions, clean usage guide
 - `TIMELINE.md` and `FUTURE_FEATURES.md` brought up to date
 - All changes committed and pushed to GitHub
+
+---
+
+## CI/CD — GitHub Actions
+
+**Goal:** Automate compile verification on every change and produce a downloadable Windows build on every release, without any manual build steps.
+
+**Built:**
+- **CI pipeline** (`.github/workflows/ci.yml`) — triggers on every push and pull request to `main` (plus manual `workflow_dispatch`). Checks out the repo, sets up the .NET 7 SDK via `actions/setup-dotnet@v4`, restores dependencies, and builds `LineByLine.App` in Release configuration on `ubuntu-latest`. Any push that breaks the build fails the check, so `main` always compiles.
+- **Release pipeline** (`.github/workflows/release.yml`) — triggers on pushing a version tag (`v*`). Runs on `windows-latest`, publishes a **self-contained, single-file `win-x64` executable** (`-p:PublishSingleFile=true --self-contained`), renames it to `LineByLine-<tag>-win-x64.exe`, and attaches it to an auto-created GitHub Release (`softprops/action-gh-release@v2`) with generated release notes. Users download one `.exe` and run it — no .NET install required.
+- **Least-privilege permissions** — the release job declares `permissions: contents: write` so the workflow token can publish releases, nothing more.
+- **Download badge** in the README (shields.io `github/v/release`) that tracks the latest release automatically.
+- Publish output directories (`publish/`, `dist/`) added to `.gitignore` so build artifacts never get committed.
+
+**Verified:** ran the exact publish command locally to confirm it produces a working ~74 MB single-file exe, then cut the first real release (`v0`) — the workflow built and uploaded `LineByLine-v0-win-x64.exe` on GitHub's runner end-to-end.
+
+**Why it matters:** this is a complete CI/CD setup — continuous integration guarding every commit and an automated, reproducible release pipeline that ships a ready-to-run binary from a single `git tag`. It demonstrates the build → verify → package → distribute lifecycle that production software depends on.
