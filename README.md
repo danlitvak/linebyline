@@ -4,7 +4,7 @@
 
 **A local-first desktop journaling app for fast, private writing.**
 
-[![Download latest release](https://img.shields.io/github/v/release/danlitvak/linebyline?label=Download&logo=github&color=5555aa)](https://github.com/danlitvak/linebyline/releases/latest)
+[![Download latest release](https://img.shields.io/github/v/release/danlitvak/linebyline?include_prereleases&sort=date&label=Download&logo=github&color=5555aa)](https://github.com/danlitvak/linebyline/releases/latest)
 
 Write one entry at a time. Press `Enter` — it disappears. Encrypted, sealed, unreadable until its unlock date. Come back later and read what past-you had to say.
 
